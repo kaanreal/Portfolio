@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+
+    <!-- Favicon for the portfolio -->
+    <link rel="icon" href="assets/images/icon.png" type="image/png">
+
+    <!-- Font Awesome for social media icons and UI elements -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Custom styles for the portfolio -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Custom script for interactive features -->
+    <script src="script.js" defer></script>
+
+</head>
+<body>
+    <!-- Background layer system with gradient, particles, and optional custom image -->
+    <div class="bg-container">
+        <div class="bg-gradient"></div>
+        <img class="bg-custom" id="customBg" src="" alt="Custom Background" style="display: none;">
+        <div class="bg-particles" id="particles"></div>
+    </div>
+
+    <!-- Main content area with centered profile -->
+    <div class="main-container">
+        <div class="profile-section">
+            <div class="profile-hint">Press DFJK for a surprise :)</div>
+            <img src="assets/images/logo.png" alt="Logo" class="profile-img">
+        </div>
+    </div>
+
+    <!-- Fixed bottom navigation system -->
+    <div class="bottom-nav-container">
+        <!-- Main navigation bar with dropdown menus -->
+        <nav class="navbar">
+            <div class="nav-items">
+                <div class="nav-item dropdown">
+                    About Me
+                    <div class="dropdown-content">
+                        <div class="dropdown-item" onclick="openModal('socialsModal')">Socials</div>
+                        <div class="dropdown-item" onclick="openModal('gameSettingsModal')">Game Settings</div>
+                        <div class="dropdown-item" onclick="openModal('setupModal')">Setup</div>
+                    </div>
+                </div>
+                <div class="nav-item" onclick="comingSoon()">Skins</div>
+                <div class="nav-item" onclick="openModal('contactModal')">Contact</div>
+            </div>
+        </nav>
+
+        <!-- Social media icons section -->
+        <div class="social-section">
+            <div class="social-icons">
+                <a href="https://www.youtube.com/@kaaanreal" target="_blank" class="social-icon youtube"><i class="fab fa-youtube"></i></a>
+                <a href="https://twitter.com/kaaanreal" target="_blank" class="social-icon twitter"><i class="fab fa-twitter"></i></a>
+                <a href="https://osu.ppy.sh/users/26595459" target="_blank" class="social-icon osu"><i class="fa fa-circle"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Setup/Equipment showcase modal -->
+    <div class="modal" id="setupModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('setupModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="modal-title">My Setup</h2>
+
+            <div class="polaroid-gallery" id="setupGallery">
+                <!-- Keyboard setup item -->
+                <div class="polaroid-item">
+                    <div class="polaroid" onclick="openFullscreen(this)">
+                        <img src="assets/images/setup/Keyboard.jpg" alt="Keyboard">
+                    </div>
+                    <div class="setup-item-text">
+                        <h3 class="setup-item-title">Keyboard</h3>
+                        <p class="setup-item-description">
+                            Madlions Mad60he RGB<br>
+                            - Gateron Jade Pro Switches<br>
+                            - Tofu 60 Wooden case
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Mouse setup item -->
+                <div class="polaroid-item">
+                    <div class="polaroid" onclick="openFullscreen(this)">
+                        <img src="assets/images/setup/Mouse.jpg" alt="Mouse">
+                    </div>
+                    <div class="setup-item-text">
+                        <h3 class="setup-item-title">Mouse</h3>
+                        <p class="setup-item-description">
+                            Attack Shark X3
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Microphone setup item -->
+                <div class="polaroid-item">
+                    <div class="polaroid" onclick="openFullscreen(this)">
+                        <img src="assets/images/setup/Microphone.jpg" alt="Microphone">
+                    </div>
+                    <div class="setup-item-text">
+                        <h3 class="setup-item-title">Microphone</h3>
+                        <p class="setup-item-description">
+                            Tonor Td510<br>
+                            - Xlr via Focusrite Scarlett Solo 3rd Gen
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Audio interface setup item -->
+                <div class="polaroid-item">
+                    <div class="polaroid" onclick="openFullscreen(this)">
+                        <img src="assets/images/setup/Interface.jpg" alt="Interface">
+                    </div>
+                    <div class="setup-item-text">
+                        <h3 class="setup-item-title">Interface</h3>
+                        <p class="setup-item-description">
+                            Focusrite Scarlett Solo 3rd Gen
+                        </p>
+                    </div>
+                </div>
+
+                <p style="text-align: center; color: rgba(255, 255, 255, 0.6); margin-top: 2rem; font-style: italic;">
+                    Note: I'm still learning photography so don't blame me for these pics.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game skins showcase modal (placeholder for future content) -->
+    <div class="modal" id="skinsModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('skinsModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="modal-title">Game Skins</h2>
+            
+            <div class="skins-gallery" id="skinsGallery">
+                <!-- Placeholder skin item -->
+                <div class="skin-item">
+                    <div class="skin-preview">
+                        <img src="https://via.placeholder.com/300x200/333/fff?text=Skin+Preview" alt="Skin Preview">
+                    </div>
+                    <div class="skin-info">
+                        <h3 class="skin-title">DEFAULT SKIN</h3>
+                        <p class="skin-description">Default skin description coming soon...</p>
+                        <button class="skin-download" onclick="downloadSkin('defaultskin.zip')">
+                            <i class="fas fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact form modal with Formspree integration -->
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('contactModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="modal-title">Get in Touch</h2>
+
+            <!-- Contact form with proper validation -->
+            <form class="contact-form" id="contactForm" action="https://formspree.io/f/mvgqegyp" method="POST">
+                <div class="form-group">
+                    <label for="contactName">Name</label>
+                    <input type="text" id="contactName" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactEmail">Email</label>
+                    <input type="email" id="contactEmail" name="_replyto" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactSubject">Subject</label>
+                    <input type="text" id="contactSubject" name="subject" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="contactMessage">Message</label>
+                    <textarea id="contactMessage" name="message" required></textarea>
+                </div>
+
+                <button type="submit" class="contact-submit">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+
+                <!-- Form status message -->
+                <p id="formStatus" style="margin-top:1rem; color:#64c8ff; display:none; text-align:center;">
+                    Message sent...
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Social media links modal -->
+    <div class="modal" id="socialsModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('socialsModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="modal-title">Connect With Me</h2>
+            
+            <div class="socials-grid">
+                <div class="social-card" onclick="openSocialLink('youtube')">
+                    <i class="fab fa-youtube"></i>
+                    <h3>YouTube</h3>
+                </div>
+                
+                <div class="social-card" onclick="openSocialLink('twitter')">
+                    <i class="fab fa-twitter"></i>
+                    <h3>Twitter</h3>
+                </div>
+                
+                <div class="social-card" onclick="openSocialLink('osu')">
+                    <i class="fas fa-circle"></i>
+                    <h3>osu!</h3>
+                </div>
+                
+                <div class="social-card" onclick="openSocialLink('discord')">
+                    <i class="fab fa-discord"></i>
+                    <h3>Discord</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game settings display modal -->
+    <div class="modal" id="gameSettingsModal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal('gameSettingsModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2 class="modal-title">My Game Settings</h2>
+            
+            <div class="settings-display-grid">
+                <!-- Keyboard settings display -->
+                <div class="setting-display-item">
+                    <div class="setting-icon"><i class="fas fa-keyboard"></i></div>
+                    <div class="setting-info">
+                        <h3 class="setting-name">Key Bindings</h3>
+                        <p class="setting-value">Z X , .</p>
+                        <p class="setting-description">0.4 Actuation / Rapid Trigger = On</p>
+                    </div>
+                </div>
+
+                <!-- Display settings -->
+                <div class="setting-display-item">
+                    <div class="setting-icon"><i class="fa-solid fa-tv"></i></div>
+                    <div class="setting-info">
+                        <h3 class="setting-name">Display Settings</h3>
+                        <p class="setting-value">2560x1440 | 180Hz | Fullscreen</p>
+                        <p class="setting-description">Sometimes 1920x1440</p>
+                    </div>
+                </div>
+
+                <!-- Game appearance settings -->
+                <div class="setting-display-item">
+                    <div class="setting-icon"><i class="fas fa-gamepad"></i></div>
+                    <div class="setting-info">
+                        <h3 class="setting-name">Appearance</h3>
+                        <p class="setting-value">Circles / 29 Scrollspeed / 0 ms</p>
+                        <p class="setting-description">Note: I'm using high receptors</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen image viewer overlay -->
+    <div class="fullscreen-overlay" id="fullscreenOverlay">
+        <div class="fullscreen-polaroid">
+            <button class="fullscreen-close" onclick="closeFullscreen()">
+                <i class="fas fa-times"></i>
+            </button>
+            <img id="fullscreenImage" src="" alt="">
+        </div>
+    </div>
+
+    <!-- Hidden osu! web player iframe (activated by key combination) -->
+    <iframe id="osuPlayer" class="osu-player" src="https://kaanreal.github.io/WebOsz/"></iframe>
+
+</body>
+</html>

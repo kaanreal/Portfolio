@@ -1,0 +1,1049 @@
+        /* ===== RESET AND BASE STYLES ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Custom font declaration for unique typography */
+        @font-face {
+            font-family: 'Yuruka';
+            src: url('./assets/fonts/fot-yuruka-std.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        /* Global body styles with modern dark theme */
+        body {
+            font-family: 'Yuruka', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background: #0a0a0a;
+            color: white;
+            min-height: 100vh;
+        }
+
+        /* ===== BACKGROUND SYSTEM ===== */
+        
+        /* Fixed background container for layered effects */
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        /* Animated gradient background with smooth color transitions */
+        .bg-gradient {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #1a1a2e, #16213e, #0f3460);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        /* Optional custom background image overlay */
+        .bg-custom {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+
+        .bg-custom.active {
+            opacity: 1;
+        }
+
+        /* Container for floating particle effects */
+        .bg-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Individual particle styling with floating animation */
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* ===== KEYFRAME ANIMATIONS ===== */
+
+        /* Smooth gradient color shifting animation */
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating particle movement with opacity changes */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.1; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 0.3; }
+        }
+
+        /* ===== MAIN LAYOUT STRUCTURE ===== */
+
+        /* Central container for main content with flex centering */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Profile section with entrance animation */
+        .profile-section {
+            animation: slideDown 1s ease-out;
+            position: relative;
+        }
+
+        /* Main profile image with hover effects and breathing animation */
+        .profile-img {
+            display: block;
+            margin: -200px auto 0 auto;
+            max-width: 60%;
+            max-height: calc(100vh - 120px);
+            height: auto;
+            width: auto;
+            object-fit: contain;
+            transition: all 0.3s ease;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        /* Hover effect for profile image */
+        .profile-img:hover {
+            transform: scale(1.05);
+            filter: brightness(1.1);
+        }
+
+        /* Tooltip hint that appears on profile hover */
+        .profile-hint {
+            position: absolute;
+            top: -300px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(20, 20, 40, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            padding: 12px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Show hint on profile section hover */
+        .profile-section:hover .profile-hint {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(-10px);
+        }
+
+        /* ===== NAVIGATION SYSTEM ===== */
+
+        /* Fixed bottom navigation container */
+        .bottom-nav-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            z-index: 1000;
+        }
+
+        /* Main navigation bar with glassmorphism effect */
+        .navbar {
+            background: rgba(20, 20, 40, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 1.2rem 2.5rem;
+            animation: slideUp 0.8s ease-out 0.5s both;
+            transition: all 0.3s ease;
+            margin-bottom: 10rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Navigation hover effects */
+        .navbar:hover {
+            background: rgba(30, 30, 60, 0.9);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Navigation items container */
+        .nav-items {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        /* Individual navigation item styling */
+        .nav-item {
+            position: relative;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            font-size: 1.1rem;
+            padding: 0.5rem 1rem;
+        }
+
+        /* Navigation item hover effects */
+        .nav-item:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* ===== DROPDOWN MENU SYSTEM ===== */
+
+        /* Dropdown container with high z-index for proper layering */
+        .dropdown {
+            position: relative;
+            z-index: 10001;
+        }
+
+        /* Hidden dropdown content with smooth transitions */
+        .dropdown-content {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(20, 20, 40, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            min-width: 150px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            margin-top: 0.5rem;
+            overflow: visible;
+            z-index: 10002;
+        }
+
+        /* Show dropdown on parent hover */
+        .dropdown:hover .dropdown-content {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        /* Individual dropdown item styling */
+        .dropdown-item {
+            position: relative;
+            padding: 1rem 1.5rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            width: 140px;
+            z-index: 9999;
+        }
+
+        /* Dropdown item hover effects */
+        .dropdown-item:hover {
+            background: rgba(100, 200, 255, 0.1);
+            color: #64c8ff;
+            transform: translateX(5px);
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        /* ===== SOCIAL MEDIA SECTION ===== */
+
+        /* Social media icons container with entrance animation */
+        .social-section {
+            animation: slideUp 1s ease-out 0.7s both;
+        }
+
+        /* Social icons flex layout */
+        .social-icons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            z-index: 10;
+        }
+
+        /* Individual social media icon styling */
+        .social-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: white;
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+
+        /* Shine effect for social icons */
+        .social-icon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .social-icon:hover::before {
+            transform: translateX(100%);
+        }
+
+        /* General social icon hover effects */
+        .social-icon:hover {
+            transform: translateY(-10px) scale(1.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Platform-specific hover colors */
+        .social-icon.youtube:hover {
+            background: rgba(255, 0, 0, 0.2);
+            border-color: #ff0000;
+            color: #ff6b6b;
+        }
+
+        .social-icon.twitter:hover {
+            background: rgba(29, 161, 242, 0.2);
+            border-color: #1da1f2;
+            color: #64b5f6;
+        }
+
+        .social-icon.osu:hover {
+            background: rgba(255, 102, 170, 0.2);
+            border-color: #ff66aa;
+            color: #ff66aa;
+        }
+
+        /* ===== MODAL SYSTEM ===== */
+
+        /* Modal overlay with backdrop blur */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Modal content container with entrance animation */
+        .modal-content {
+            background: rgba(20, 20, 40, 0.95);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            transform: scale(0.8) translateY(50px);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        /* Modal close button */
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: rotate(90deg);
+        }
+
+        /* Modal title with gradient text */
+        .modal-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            background: linear-gradient(45deg, #64c8ff, #ff66aa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ===== POLAROID GALLERY SYSTEM ===== */
+
+        /* Gallery container for setup/portfolio items */
+        .polaroid-gallery {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Individual gallery item with polaroid and description */
+        .polaroid-item {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .polaroid-item:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* 3D polaroid photo effect */
+        .polaroid {
+            position: relative;
+            width: 200px;
+            height: 240px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            transform: perspective(1000px) rotateX(15deg) rotateY(25deg) rotateZ(-3deg) translateZ(15px);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            animation: polaroidFloat 8s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        /* Complex floating animation for polaroids */
+        @keyframes polaroidFloat {
+            0% { 
+                transform: perspective(1000px) rotateX(15deg) rotateY(25deg) rotateZ(-3deg) translateY(0px) translateZ(15px);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            }
+            25% { 
+                transform: perspective(1000px) rotateX(18deg) rotateY(30deg) rotateZ(-1deg) translateY(-8px) translateZ(25px);
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
+            }
+            50% { 
+                transform: perspective(1000px) rotateX(12deg) rotateY(35deg) rotateZ(-5deg) translateY(-12px) translateZ(30px);
+                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            }
+            75% { 
+                transform: perspective(1000px) rotateX(20deg) rotateY(20deg) rotateZ(-2deg) translateY(-8px) translateZ(25px);
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
+            }
+            100% { 
+                transform: perspective(1000px) rotateX(15deg) rotateY(25deg) rotateZ(-3deg) translateY(0px) translateZ(15px);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        /* Enhanced 3D effect on polaroid hover */
+        .polaroid:hover {
+            transform: perspective(1000px) rotateX(8deg) rotateY(15deg) rotateZ(-1deg) scale(1.05) translateZ(40px);
+            box-shadow: 0 35px 70px rgba(0, 0, 0, 0.5);
+            animation: none;
+        }
+
+        /* Polaroid image styling */
+        .polaroid img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 5px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            transition: all 0.3s ease;
+        }
+
+        /* ===== CONTENT SECTIONS ===== */
+
+        /* Text content for setup items */
+        .setup-item-text {
+            flex: 1;
+        }
+
+        .setup-item-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #64c8ff;
+        }
+
+        .setup-item-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        /* Skins gallery grid layout */
+        .skins-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Individual skin item card */
+        .skin-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .skin-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        /* Skin preview image container */
+        .skin-preview {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .skin-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+
+        /* Skin information section */
+        .skin-info {
+            padding: 1.5rem;
+        }
+
+        .skin-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #64c8ff;
+        }
+
+        .skin-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        /* Skin download button with gradient */
+        .skin-download {
+            width: 100%;
+            padding: 0.8rem;
+            background: linear-gradient(45deg, #64c8ff, #ff66aa);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .skin-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(100, 200, 255, 0.3);
+        }
+
+        /* ===== CONTACT FORM SYSTEM ===== */
+
+        /* Contact form container */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Form input group styling */
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #64c8ff;
+            font-weight: 500;
+        }
+
+        /* Form input and textarea styling */
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        /* Form input focus effects */
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #64c8ff;
+            box-shadow: 0 0 20px rgba(100, 200, 255, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* Contact form submit button */
+        .contact-submit {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(45deg, #64c8ff, #ff66aa);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .contact-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(100, 200, 255, 0.3);
+        }
+
+        /* ===== SOCIAL MEDIA CARDS ===== */
+
+        /* Grid layout for social media cards */
+        .socials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Individual social media card */
+        .social-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .social-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .social-card i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #64c8ff;
+        }
+
+        .social-card h3 {
+            margin-bottom: 0.5rem;
+            color: white;
+        }
+
+        .social-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* ===== GAME SETTINGS DISPLAY ===== */
+
+        /* Grid layout for game settings */
+        .settings-display-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Individual setting display item */
+        .setting-display-item {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .setting-display-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(100, 200, 255, 0.3);
+        }
+
+        /* Setting icon container */
+        .setting-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(100, 200, 255, 0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #64c8ff;
+            flex-shrink: 0;
+            border: 2px solid rgba(100, 200, 255, 0.2);
+        }
+
+        /* Setting information content */
+        .setting-info {
+            flex: 1;
+        }
+
+        .setting-name {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: #64c8ff;
+            font-weight: 600;
+        }
+
+        .setting-value {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: white;
+            font-weight: 500;
+            font-family: 'Consolas', monospace;
+        }
+
+        .setting-description {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        /* ===== FULLSCREEN IMAGE VIEWER ===== */
+
+        /* Fullscreen overlay for image viewing */
+        .fullscreen-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .fullscreen-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Fullscreen polaroid container */
+        .fullscreen-polaroid {
+            position: relative;
+            max-width: 80vw;
+            max-height: 80vh;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+            transform: scale(0.5) rotate(15deg);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .fullscreen-overlay.active .fullscreen-polaroid {
+            transform: scale(1) rotate(0deg);
+        }
+
+        .fullscreen-polaroid img {
+            width: 100%;
+            height: auto;
+            max-width: 600px;
+            max-height: 600px;
+            object-fit: cover;
+            border-radius: 10px;
+            padding: 20px 20px 60px 20px;
+        }
+
+        /* Fullscreen close button */
+        .fullscreen-close {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .fullscreen-close:hover {
+            background: white;
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        /* Hidden osu! player iframe */
+        .osu-player {
+            display: none;
+            position: fixed;
+            top: 10%;
+            left: 10%;
+            width: 80%;
+            height: 80%;
+            z-index: 1000;
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        }
+
+        /* ===== ENTRANCE ANIMATIONS ===== */
+
+        /* Slide down animation for content entrance */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Slide up animation for navigation entrance */
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Subtle breathing animation for profile image */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        /* Ripple effect animation for interactive elements */
+        @keyframes ripple {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* ===== NAVIGATION STATES ===== */
+
+        /* Active navigation item styling */
+        .nav-item.active {
+            background: rgba(100, 200, 255, 0.2);
+            color: #64c8ff;
+        }
+
+        /* Underline effect for navigation items */
+        .nav-item::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #64c8ff, #ff66aa);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+
+        .nav-item:hover::after {
+            width: 80%;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+
+        /* Mobile and tablet responsive breakpoint */
+        @media (max-width: 768px) {
+            /* Compact navigation for mobile */
+            .navbar {
+                padding: 0.6rem 1rem;
+            }
+
+            .nav-items {
+                gap: 1rem;
+            }
+
+            .nav-item {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            /* Smaller social icons for mobile */
+            .social-icons {
+                gap: 1.5rem;
+            }
+
+            .social-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+
+            /* Adjusted padding for mobile layout */
+            .main-container {
+                padding: 1rem;
+            }
+
+            .bottom-nav-container {
+                padding: 1rem;
+            }
+
+            /* Modal adjustments for mobile */
+            .modal-content {
+                padding: 2rem;
+                margin: 1rem;
+            }
+
+            .modal-title {
+                font-size: 2rem;
+            }
+
+            /* Mobile gallery layout adjustments */
+            .polaroid-gallery {
+                gap: 2rem;
+            }
+
+            .polaroid-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            /* Smaller polaroid size for mobile */
+            .polaroid {
+                width: 180px;
+                height: 220px;
+                transform: perspective(800px) rotateX(12deg) rotateY(20deg) rotateZ(-2deg) translateZ(10px);
+            }
+
+            .polaroid img {
+                width: 160px;
+                height: 160px;
+            }
+
+            /* Single column layout for mobile */
+            .skins-gallery {
+                grid-template-columns: 1fr;
+            }
+
+            .settings-display-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .setting-display-item {
+                padding: 1.5rem;
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .socials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            /* Mobile profile hint adjustments */
+            .profile-hint {
+                font-size: 0.8rem;
+                padding: 8px 16px;
+            }
+
+            /* Mobile osu player positioning */
+            .osu-player {
+                top: 5%;
+                left: 5%;
+                width: 90%;
+                height: 90%;
+            }
+        }
