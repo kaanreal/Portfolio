@@ -1,4 +1,4 @@
-        /* ===== RESET AND BASE STYLES ===== */
+   /* ===== RESET AND BASE STYLES ===== */
         * {
             margin: 0;
             padding: 0;
@@ -383,7 +383,7 @@
             background: rgba(20, 20, 40, 0.95);
             border-radius: 20px;
             padding: 3rem;
-            max-width: 90%;
+            max-width: 95%;
             max-height: 90%;
             overflow-y: auto;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -538,69 +538,146 @@
             line-height: 1.6;
         }
 
-        /* Skins gallery grid layout */
+        /* ===== UPDATED SKINS GALLERY SYSTEM ===== */
+
+        /* Skins gallery with single column layout for better 16:9 preview */
         .skins-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
-        /* Individual skin item card */
+        /* Skin item with polaroid-style layout similar to setup */
         .skin-item {
+            display: flex;
+            align-items: center;
+            gap: 3rem;
             background: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
-            overflow: hidden;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
         }
 
         .skin-item:hover {
-            transform: translateY(-5px);
+            transform: translateY(-8px);
             background: rgba(255, 255, 255, 0.08);
         }
 
-        /* Skin preview image container */
-        .skin-preview {
+        /* Skin preview polaroid container */
+        .skin-preview-polaroid {
             position: relative;
-            height: 200px;
-            overflow: hidden;
+            width: 480px;
+            height: 320px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            transform: perspective(1000px) rotateX(10deg) rotateY(20deg) rotateZ(-2deg) translateZ(15px);
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            animation: skinPolaroidFloat 8s ease-in-out infinite;
+            flex-shrink: 0;
         }
 
+        /* Floating animation for skin polaroids */
+        @keyframes skinPolaroidFloat {
+            0% { 
+                transform: perspective(1000px) rotateX(10deg) rotateY(20deg) rotateZ(-2deg) translateY(0px) translateZ(15px);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            }
+            25% { 
+                transform: perspective(1000px) rotateX(12deg) rotateY(25deg) rotateZ(-1deg) translateY(-6px) translateZ(20px);
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
+            }
+            50% { 
+                transform: perspective(1000px) rotateX(8deg) rotateY(30deg) rotateZ(-3deg) translateY(-10px) translateZ(25px);
+                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            }
+            75% { 
+                transform: perspective(1000px) rotateX(14deg) rotateY(15deg) rotateZ(-1deg) translateY(-6px) translateZ(20px);
+                box-shadow: 0 25px 50px rgba(0, 0, 0, 0.35);
+            }
+            100% { 
+                transform: perspective(1000px) rotateX(10deg) rotateY(20deg) rotateZ(-2deg) translateY(0px) translateZ(15px);
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        /* Enhanced 3D effect on skin polaroid hover */
+        .skin-preview-polaroid:hover {
+            transform: perspective(1000px) rotateX(5deg) rotateY(10deg) rotateZ(0deg) scale(1.02) translateZ(35px);
+            box-shadow: 0 35px 70px rgba(0, 0, 0, 0.5);
+            animation: none;
+        }
+
+        /* Skin preview image container with proper 16:9 aspect ratio */
+        .skin-preview {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 450px;
+            height: 253px;
+            overflow: hidden;
+            border-radius: 5px;
+            background: #000;
+        }
+
+        /* Skin preview images with smooth sliding transition */
         .skin-preview img {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: all 0.5s ease;
+            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform: translateX(0);
+        }
+
+        /* Sliding animations for skin preview cycling */
+        .skin-preview img.slide-out-left {
+            transform: translateX(-100%);
+        }
+
+        .skin-preview img.slide-in-right {
+            transform: translateX(100%);
+        }
+
+        .skin-preview img.active {
+            transform: translateX(0);
         }
 
         /* Skin information section */
         .skin-info {
-            padding: 1.5rem;
+            flex: 1;
         }
 
         .skin-title {
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
             color: #64c8ff;
+            font-weight: 600;
         }
 
         .skin-description {
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 1rem;
-            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            line-height: 1.6;
         }
 
         /* Skin download button with gradient */
         .skin-download {
-            width: 100%;
-            padding: 0.8rem;
+            padding: 1rem 2rem;
             background: linear-gradient(45deg, #64c8ff, #ff66aa);
             border: none;
             border-radius: 10px;
             color: white;
             font-weight: bold;
+            font-size: 1.1rem;
             cursor: pointer;
             transition: all 0.3s ease;
         }
@@ -1012,9 +1089,22 @@
                 height: 160px;
             }
 
-            /* Single column layout for mobile */
-            .skins-gallery {
-                grid-template-columns: 1fr;
+            /* Mobile skin gallery adjustments */
+            .skin-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 2rem;
+            }
+
+            .skin-preview-polaroid {
+                width: 320px;
+                height: 220px;
+                transform: perspective(800px) rotateX(8deg) rotateY(15deg) rotateZ(-1deg) translateZ(10px);
+            }
+
+            .skin-preview {
+                width: 290px;
+                height: 163px;
             }
 
             .settings-display-grid {

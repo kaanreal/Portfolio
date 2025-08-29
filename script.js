@@ -63,14 +63,6 @@
         // ===== USER INTERFACE FUNCTIONS =====
 
         /**
-         * Placeholder function for upcoming skins feature
-         * Displays development status to users
-         */
-        function comingSoon() {
-            alert("I still need to make skins :(");
-        }
-
-        /**
          * Opens specified modal with smooth animation
          * @param {string} modalId - The ID of the modal to open
          */
@@ -108,20 +100,29 @@
         }
 
         /**
+         * Opens fullscreen viewer for skin preview images
+         * @param {HTMLElement} skinPolaroidElement - The skin polaroid element clicked
+         */
+        function openSkinFullscreen(skinPolaroidElement) {
+            const overlay = document.getElementById('fullscreenOverlay');
+            const fullscreenImg = document.getElementById('fullscreenImage');
+            const currentImg = skinPolaroidElement.querySelector('.skin-preview img');
+            
+            // Transfer current skin image to fullscreen viewer
+            fullscreenImg.src = currentImg.src;
+            fullscreenImg.alt = currentImg.alt;
+            
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        /**
          * Closes fullscreen image viewer
          */
         function closeFullscreen() {
             const overlay = document.getElementById('fullscreenOverlay');
             overlay.classList.remove('active');
             document.body.style.overflow = '';
-        }
-
-        /**
-         * Handles skin download functionality (placeholder)
-         * @param {string} filename - Name of the skin file to download
-         */
-        function downloadSkin(filename) {
-            alert(`Downloading ${filename}...`);
         }
 
         // ===== CONTACT FORM SYSTEM =====
@@ -191,7 +192,7 @@
          * Creates realistic perspective changes based on mouse movement
          */
         function init3DTiltEffect() {
-            const polaroids = document.querySelectorAll('.polaroid');
+            const polaroids = document.querySelectorAll('.polaroid, .skin-preview-polaroid');
             
             polaroids.forEach(polaroid => {
                 // Dynamic tilt based on mouse position within element
@@ -217,10 +218,12 @@
                         scale(1.08) 
                         translateZ(45px)
                     `;
+                    this.style.transition = 'transform 0.1s ease-out';
                 });
                 
-                // Reset to original position when mouse leaves
+                // Smooth reset to original position when mouse leaves
                 polaroid.addEventListener('mouseleave', function() {
+                    this.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
                     this.style.transform = this.dataset.originalTransform || 'perspective(1000px) rotateX(15deg) rotateY(25deg) rotateZ(-3deg) translateZ(15px)';
                 });
             });
@@ -390,6 +393,74 @@
             }
         }
 
+        // ===== SKIN PREVIEW SLIDING SYSTEM =====
+        /**
+         * Initializes sliding preview system for skin images
+         * Simple cycling system with proper sliding animation
+         */
+        function initSkinPreviewSliding() {
+            const skinItems = document.querySelectorAll(".skin-item");
+
+            skinItems.forEach(item => {
+                const previewContainer = item.querySelector(".skin-preview");
+                const imageList = JSON.parse(item.dataset.images);
+                
+                // Skip if only one image
+                if (imageList.length <= 1) return;
+                
+                let currentIndex = 0;
+                
+                // Clear container and create first image
+                previewContainer.innerHTML = '';
+                const currentImg = document.createElement('img');
+                currentImg.src = imageList[0];
+                currentImg.alt = 'Skin Preview';
+                currentImg.style.position = 'absolute';
+                currentImg.style.top = '0';
+                currentImg.style.left = '0';
+                currentImg.style.width = '100%';
+                currentImg.style.height = '100%';
+                currentImg.style.objectFit = 'cover';
+                currentImg.style.transition = 'transform 0.6s ease-in-out';
+                previewContainer.appendChild(currentImg);
+
+                setInterval(() => {
+                    currentIndex = (currentIndex + 1) % imageList.length;
+                    
+                    // Create next image
+                    const nextImg = document.createElement('img');
+                    nextImg.src = imageList[currentIndex];
+                    nextImg.alt = 'Skin Preview';
+                    nextImg.style.position = 'absolute';
+                    nextImg.style.top = '0';
+                    nextImg.style.left = '0';
+                    nextImg.style.width = '100%';
+                    nextImg.style.height = '100%';
+                    nextImg.style.objectFit = 'cover';
+                    nextImg.style.transform = 'translateX(100%)';
+                    nextImg.style.transition = 'transform 0.6s ease-in-out';
+                    
+                    previewContainer.appendChild(nextImg);
+                    
+                    // Trigger slide animation
+                    setTimeout(() => {
+                        currentImg.style.transform = 'translateX(-100%)';
+                        nextImg.style.transform = 'translateX(0)';
+                    }, 10);
+                    
+                    // Clean up after animation
+                    setTimeout(() => {
+                        if (currentImg.parentNode) {
+                            currentImg.remove();
+                        }
+                        nextImg.style.transform = 'translateX(0)';
+                        currentImg = nextImg;
+                    }, 650);
+                    
+                }, 4000);
+            });
+        }
+
         // ===== INITIALIZATION =====
 
         /**
@@ -405,4 +476,5 @@
             initContactForm();
             initEventListeners();
             initOsuPlayer();
+            initSkinPreviewSliding();
         });

@@ -19,7 +19,7 @@
 
 </head>
 <body>
-    <!-- Background layer system with gradient, particles, and optional custom image -->
+     <!-- Background layer system with gradient, particles, and optional custom image -->
     <div class="bg-container">
         <div class="bg-gradient"></div>
         <img class="bg-custom" id="customBg" src="" alt="Custom Background" style="display: none;">
@@ -47,7 +47,7 @@
                         <div class="dropdown-item" onclick="openModal('setupModal')">Setup</div>
                     </div>
                 </div>
-                <div class="nav-item" onclick="comingSoon()">Skins</div>
+                <div class="nav-item" onclick="openModal('skinsModal')">Skins</div>
                 <div class="nav-item" onclick="openModal('contactModal')">Contact</div>
             </div>
         </nav>
@@ -133,7 +133,7 @@
         </div>
     </div>
 
-    <!-- Game skins showcase modal (placeholder for future content) -->
+    <!-- Game skins showcase modal with updated design -->
     <div class="modal" id="skinsModal">
         <div class="modal-content">
             <button class="modal-close" onclick="closeModal('skinsModal')">
@@ -141,16 +141,22 @@
             </button>
             <h2 class="modal-title">Game Skins</h2>
             
-            <div class="skins-gallery" id="skinsGallery">
-                <!-- Placeholder skin item -->
-                <div class="skin-item">
-                    <div class="skin-preview">
-                        <img src="https://via.placeholder.com/300x200/333/fff?text=Skin+Preview" alt="Skin Preview">
+            <div class="skins-gallery">
+                <!-- Skin item with polaroid-style layout -->
+                <div class="skin-item" data-images='[
+                    "assets/images/skins/Truzko Junio (Kaan edit)/ingame.png",
+                    "assets/images/skins/Truzko Junio (Kaan edit)/mainmenu.png",
+                    "assets/images/skins/Truzko Junio (Kaan edit)/scorescreen.png"
+                ]'>
+                    <div class="skin-preview-polaroid" onclick="openSkinFullscreen(this)">
+                        <div class="skin-preview">
+                            <img src="assets/images/skins/Truzko Junio (Kaan edit)/ingame.png" alt="Skin Preview">
+                        </div>
                     </div>
                     <div class="skin-info">
-                        <h3 class="skin-title">DEFAULT SKIN</h3>
-                        <p class="skin-description">Default skin description coming soon...</p>
-                        <button class="skin-download" onclick="downloadSkin('defaultskin.zip')">
+                        <h3 class="skin-title">Truzko Junio (Kaan edit)</h3>
+                        <p class="skin-description">An edit of Truzkos skin. https://osu.ppy.sh/users/9921804</p>
+                        <button class="skin-download" onclick="window.location.href='assets/skins/Truzko Junio (Kaan edit).osk'">
                             <i class="fas fa-download"></i> Download
                         </button>
                     </div>
@@ -288,6 +294,3 @@
 
     <!-- Hidden osu! web player iframe (activated by key combination) -->
     <iframe id="osuPlayer" class="osu-player" src="https://kaanreal.github.io/WebOsz/"></iframe>
-
-</body>
-</html>
