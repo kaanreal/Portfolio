@@ -1,63 +1,64 @@
         // ===== GLOBAL VARIABLES AND STATE =====
         
         // Feature toggles and state management
-        let particlesEnabled = true;
         let osuVisible = false;
         let keysPressed = {};
 
-        // ===== PARTICLE SYSTEM =====
-        
-        /**
-         * Creates and animates floating background particles
-         * Generates random particles with varying sizes and positions
-         */
-        function createParticles() {
-            if (!particlesEnabled) return;
-            
-            const particlesContainer = document.getElementById('particles');
-            particlesContainer.innerHTML = '';
-            const particleCount = 50;
+        // ===== FALLING IMAGES SYSTEM =====
 
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.classList.add('particle');
+        /**
+         * Creates falling images background effect
+         * Two different images falling with rotation
+         */
+        function createFallingImages() {
+            const container = document.getElementById('bgContainer');
+            const images = [
+                'assets/images/logo.png',      // Replace with your first image path
+                'assets/images/icon.png'       // Replace with your second image path
+            ];
+
+            function createFallingImage() {
+                const img = document.createElement('img');
+                img.className = 'falling-image';
                 
-                // Randomize particle properties for organic movement
-                const size = Math.random() * 4 + 1;
-                particle.style.width = size + 'px';
-                particle.style.height = size + 'px';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
+                // Randomly select one of the two images
+                img.src = images[Math.floor(Math.random() * images.length)];
                 
-                // Stagger animation timing for natural effect
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                // Random horizontal position (ensure it starts completely off-screen)
+                img.style.left = Math.random() * (window.innerWidth + 200) - 100 + 'px';
                 
-                particlesContainer.appendChild(particle);
+                // Start much higher above screen
+                img.style.top = '-200px';
+                
+                // Random size between 30px and 80px
+                const size = Math.random() * 50 + 30;
+                img.style.width = size + 'px';
+                img.style.height = size + 'px';
+                
+                // Random animation duration between 6-12 seconds (faster)
+                const duration = Math.random() * 6 + 6;
+                img.style.animationDuration = duration + 's';
+                
+                // Random delay to stagger the images
+                img.style.animationDelay = Math.random() * 1.5 + 's';
+                
+                container.appendChild(img);
+                
+                // Remove image after animation completes
+                setTimeout(() => {
+                    if (img.parentNode) {
+                        img.remove();
+                    }
+                }, (duration + 1.5) * 1000);
             }
-        }
 
-        /**
-         * Initializes mouse interaction with particles
-         * Creates subtle parallax effect based on cursor position
-         */
-        function initMouseInteraction() {
-            document.addEventListener('mousemove', throttle((e) => {
-                if (!particlesEnabled) return;
-                
-                const particles = document.querySelectorAll('.particle');
-                const mouseX = e.clientX / window.innerWidth;
-                const mouseY = e.clientY / window.innerHeight;
-
-                // Apply parallax movement to each particle
-                particles.forEach((particle, index) => {
-                    const speed = (index % 5 + 1) * 0.3;
-                    const x = (mouseX - 0.5) * speed;
-                    const y = (mouseY - 0.5) * speed;
-                    
-                    particle.style.transform += `translate(${x}px, ${y}px)`;
-                });
-            }, 16));
+            // Create images more frequently
+            setInterval(createFallingImage, 600);
+            
+            // Create initial batch
+            for (let i = 0; i < 3; i++) {
+                setTimeout(createFallingImage, i * 300);
+            }
         }
 
         // ===== USER INTERFACE FUNCTIONS =====
@@ -253,6 +254,25 @@
                 polaroid.dataset.originalTransform = originalTransform;
             });
             
+            // Initialize skin polaroids too
+            const skinPolaroids = document.querySelectorAll('.skin-preview-polaroid');
+            skinPolaroids.forEach((polaroid, index) => {
+                // Generate random rotation values for skin polaroids
+                const randomX = 8 + Math.random() * 6;
+                const randomY = 15 + Math.random() * 12;
+                const randomZ = -3 + Math.random() * 6;
+                const randomDelay = Math.random() * 4;
+                const randomDuration = 6 + Math.random() * 4;
+                
+                // Apply randomized initial transform for skin polaroids
+                const originalTransform = `perspective(1000px) rotateX(${randomX}deg) rotateY(${randomY}deg) rotateZ(${randomZ}deg) translateZ(15px)`;
+                polaroid.style.animationDelay = randomDelay + 's';
+                polaroid.style.animationDuration = randomDuration + 's';
+                
+                // Store original transform for reset functionality
+                polaroid.dataset.originalTransform = originalTransform;
+            });
+            
             init3DTiltEffect();
         }
 
@@ -350,14 +370,14 @@
 
         /**
          * Initializes hidden osu! player easter egg
-         * Activated by pressing D+F or J+K key combinations simultaneously
+         * Activated by pressing D+F+J+K key combinations simultaneously
          */
         function initOsuPlayer() {
             document.addEventListener('keydown', (e) => {
                 keysPressed[e.key.toLowerCase()] = true;
 
-                // Check for key combination activation
-                if (!osuVisible && ((keysPressed['d'] && keysPressed['f']) || (keysPressed['j'] && keysPressed['k']))) {
+                // Check for all 4 keys pressed simultaneously
+                if (!osuVisible && keysPressed['d'] && keysPressed['f'] && keysPressed['j'] && keysPressed['k']) {
                     const player = document.getElementById('osuPlayer');
                     if (player) {
                         player.style.display = 'block';
@@ -370,27 +390,6 @@
             document.addEventListener('keyup', (e) => {
                 keysPressed[e.key.toLowerCase()] = false;
             });
-        }
-
-        // ===== UTILITY FUNCTIONS =====
-
-        /**
-         * Throttle function to limit function execution frequency
-         * Used for performance optimization on frequent events like mousemove
-         * @param {Function} func - Function to throttle
-         * @param {number} limit - Minimum time between executions in milliseconds
-         */
-        function throttle(func, limit) {
-            let inThrottle;
-            return function() {
-                const args = arguments;
-                const context = this;
-                if (!inThrottle) {
-                    func.apply(context, args);
-                    inThrottle = true;
-                    setTimeout(() => inThrottle = false, limit);
-                }
-            }
         }
 
         // ===== SKIN PREVIEW SLIDING SYSTEM =====
@@ -469,8 +468,7 @@
          */
         document.addEventListener('DOMContentLoaded', function() {
             // Initialize all systems in order
-            createParticles();
-            initMouseInteraction();
+            createFallingImages();
             initPolaroidEffects();
             initNavigation();
             initContactForm();
