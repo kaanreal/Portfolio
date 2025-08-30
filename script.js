@@ -13,8 +13,8 @@
         function createFallingImages() {
             const container = document.getElementById('bgContainer');
             const images = [
-                'assets/images/logo.png',      // Replace with your first image path
-                'assets/images/icon.png'       // Replace with your second image path
+                'assets/images/arrow1.png',      // Replace with your first image path
+                'assets/images/arrow2.png'       // Replace with your second image path
             ];
 
             function createFallingImage() {
