@@ -21,6 +21,7 @@
             background-size: 400% 400%;
             animation: gradientShift 12s ease infinite;
             color: white;
+            user-select: none;
             min-height: 100vh;
         }
 
