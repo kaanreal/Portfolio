@@ -23,6 +23,7 @@
             color: white;
             user-select: none;
             min-height: 100vh;
+            cursor: url('assets/images/cursor.png') 24 24, auto;
         }
 
         /* ===== BACKGROUND ANIMATIONS ===== */
@@ -194,7 +195,7 @@
         /* Individual navigation item styling */
         .nav-item {
             position: relative;
-            cursor: pointer;
+            cursor: url('assets/images/cursor.png') 24 24, auto;
             border-radius: 25px;
             transition: all 0.3s ease;
             color: rgba(255, 255, 255, 0.8);
@@ -251,7 +252,7 @@
             border-radius: 20px;
             transition: all 0.3s ease;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            cursor: pointer;
+            cursor: url('assets/images/cursor.png') 24 24, auto;
             width: 140px;
             z-index: 9999;
         }
@@ -292,7 +293,7 @@
             background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             transition: all 0.4s ease;
-            cursor: pointer;
+            cursor: url('assets/images/cursor.png') 24 24, auto;
             font-size: 1.5rem;
             color: white;
             border: 2px solid transparent;
@@ -396,7 +397,7 @@
             border: none;
             font-size: 1.5rem;
             color: rgba(255, 255, 255, 0.7);
-            cursor: pointer;
+            cursor: url('assets/images/cursor.png') 24 24, auto;
             transition: all 0.3s ease;
             width: 40px;
             height: 40px;
@@ -460,7 +461,7 @@
             background: #ffffff;
             border-radius: 10px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            cursor: pointer;
+            cursor: url('assets/images/cursor.png') 24 24, auto;
             transform: perspective(1000px) rotateX(15deg) rotateY(25deg) rotateZ(-3deg) translateZ(15px);
             transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             animation: polaroidFloat 8s ease-in-out infinite;
@@ -565,7 +566,7 @@
             background: #ffffff;
             border-radius: 10px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-            cursor: pointer;
+            cursor: url('assets/images/cursor.png') 24 24, auto;
             transform: perspective(1000px) rotateX(10deg) rotateY(20deg) rotateZ(-2deg) translateZ(15px);
             transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             animation: skinPolaroidFloat 8s ease-in-out infinite;
@@ -673,7 +674,7 @@
             color: white;
             font-weight: bold;
             font-size: 1.1rem;
-            cursor: pointer;
+            cursor: url('assets/images/cursor.png') 24 24, auto;
             transition: all 0.3s ease;
         }
 
@@ -738,7 +739,7 @@
             color: white;
             font-size: 1.1rem;
             font-weight: bold;
-            cursor: pointer;
+            cursor: url('assets/images/cursor.png') 24 24, auto;
             transition: all 0.3s ease;
         }
 
@@ -766,7 +767,7 @@
             text-align: center;
             border: 1px solid rgba(255, 255, 255, 0.1);
             transition: all 0.3s ease;
-            cursor: pointer;
+            cursor: url('assets/images/cursor.png') 24 24, auto;
         }
 
         .social-card:hover {
@@ -922,7 +923,7 @@
             border: none;
             border-radius: 50%;
             font-size: 1.5rem;
-            cursor: pointer;
+            cursor: url('assets/images/cursor.png') 24 24, auto;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1123,6 +1124,7 @@
                 font-size: 0.8rem;
                 padding: 8px 16px;
             }
+
 
             /* Mobile osu player positioning */
             .osu-player {
