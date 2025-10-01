@@ -4,6 +4,305 @@
         let osuVisible = false;
         let keysPressed = {};
 
+        // Discord widget configuration
+        const DISCORD_USER_ID = '135973899887181824';
+
+        // ===== DISCORD WIDGET SYSTEM =====
+
+        /**
+         * Discord widget using Lanyard API
+         * Displays real-time Discord presence status
+         */
+        class DiscordWidget {
+            constructor(userId) {
+                this.userId = userId;
+                this.websocket = null;
+                this.retryCount = 0;
+                this.maxRetries = 5;
+                this.retryDelay = 5000;
+                this.init();
+            }
+
+            init() {
+                // Show initial loading state
+                this.showLoadingState();
+                
+                // Connect WebSocket
+                this.connectWebSocket();
+                
+                // Retry connection every 30 seconds if disconnected
+                setInterval(() => {
+                    if (!this.websocket || this.websocket.readyState === WebSocket.CLOSED) {
+                        this.connectWebSocket();
+                    }
+                }, 30000);
+            }
+
+            showLoadingState() {
+                const username = document.getElementById('discordUsername');
+                const status = document.getElementById('discordStatus');
+                const activity = document.getElementById('discordActivity');
+                
+                username.textContent = 'kaaanreal';
+                status.textContent = 'Connecting...';
+                activity.textContent = '';
+            }
+
+            connectWebSocket() {
+                try {
+                    this.websocket = new WebSocket('wss://api.lanyard.rest/socket');
+                    
+                    this.websocket.onopen = () => {
+                        console.log('Discord widget connected to Lanyard');
+                        this.retryCount = 0;
+                        
+                        // Subscribe to user updates
+                        this.websocket.send(JSON.stringify({
+                            op: 2,
+                            d: {
+                                subscribe_to_ids: [this.userId]
+                            }
+                        }));
+                    };
+
+                    this.websocket.onmessage = (event) => {
+                        const data = JSON.parse(event.data);
+                        
+                        if (data.t === 'INIT_STATE') {
+                            const presence = data.d?.[this.userId];
+                            if (presence) {
+                                this.updateWidget(presence);
+                            } else {
+                                this.showOfflineStateWithProfile();
+                            }
+                        } else if (data.t === 'PRESENCE_UPDATE') {
+                            const presence = data.d;
+                            if (presence) {
+                                this.updateWidget(presence);
+                            }
+                        }
+                    };
+
+                    this.websocket.onclose = () => {
+                        console.log('Discord widget disconnected');
+                        this.handleReconnect();
+                    };
+
+                    this.websocket.onerror = (error) => {
+                        console.error('Discord widget WebSocket error:', error);
+                        this.handleReconnect();
+                    };
+
+                } catch (error) {
+                    console.error('Failed to create WebSocket connection:', error);
+                    this.handleReconnect();
+                }
+            }
+
+            handleReconnect() {
+                if (this.retryCount < this.maxRetries) {
+                    this.retryCount++;
+                    console.log(`Retrying Discord connection (${this.retryCount}/${this.maxRetries})...`);
+                    setTimeout(() => this.connectWebSocket(), this.retryDelay);
+                } else {
+                    console.log('Max retries reached for Discord widget');
+                    this.showOfflineState();
+                }
+            }
+
+            updateWidget(presence) {
+                const avatar = document.getElementById('discordAvatar');
+                const username = document.getElementById('discordUsername');
+                const status = document.getElementById('discordStatus');
+                const activity = document.getElementById('discordActivity');
+                const statusIndicator = document.getElementById('statusIndicator');
+
+                console.log('Updating widget with presence:', presence); // Debug log
+                
+                // Update avatar with error handling
+                if (presence.discord_user?.avatar) {
+                    const avatarUrl = `https://cdn.discordapp.com/avatars/${this.userId}/${presence.discord_user.avatar}.webp?size=128`;
+                    avatar.src = avatarUrl;
+                } else {
+                    avatar.src = `https://cdn.discordapp.com/embed/avatars/0.png`;
+                }
+                
+                // Handle status and filter
+                const discordStatus = presence.discord_status || 'offline';
+                if (discordStatus === 'offline') {
+                    avatar.style.filter = 'grayscale(0.7) brightness(0.8)';
+                    status.textContent = 'Last seen a few minutes ago';
+                } else {
+                    avatar.style.filter = 'none';
+                    status.textContent = this.formatStatus(discordStatus);
+                }
+                
+                // Error handling for avatar loading
+                avatar.onerror = () => {
+                    console.log('Avatar failed to load, using default');
+                    avatar.src = 'https://cdn.discordapp.com/embed/avatars/0.png';
+                };
+
+                // Update username
+                username.textContent = presence.discord_user?.global_name || presence.discord_user?.username || 'kaaanreal';
+
+                // Update status indicator
+                statusIndicator.className = `status-indicator ${discordStatus}`;
+
+                // Update activity
+                this.updateActivity(presence.activities || [], activity);
+                
+                // Update music cover in Discord widget
+                this.updateMusicCover(presence.activities || []);
+            }
+
+            formatStatus(status) {
+                const statusMap = {
+                    'online': 'Online',
+                    'idle': 'Away',
+                    'dnd': 'Do Not Disturb',
+                    'offline': 'Offline'
+                };
+                return statusMap[status] || 'Unknown';
+            }
+
+            updateActivity(activities, activityElement) {
+                if (!activities || activities.length === 0) {
+                    activityElement.textContent = '';
+                    activityElement.className = 'discord-activity';
+                    return;
+                }
+
+                // Filter out Custom Status (type 4) but KEEP Spotify (type 2) for display
+                const relevantActivities = activities.filter(activity => activity.type !== 4);
+                const activity = relevantActivities[0];
+
+                if (activity) {
+                    let activityText = '';
+                    
+                    switch (activity.type) {
+                        case 0: // Playing
+                            activityText = `Playing ${activity.name}`;
+                            if (activity.details) {
+                                activityText += ` - ${activity.details}`;
+                            }
+                            break;
+                        case 1: // Streaming
+                            activityText = `Streaming ${activity.name}`;
+                            break;
+                        case 2: // Listening (Spotify)
+                            activityText = `Listening to ${activity.details || activity.name}`;
+                            if (activity.state) {
+                                activityText += ` by ${activity.state}`;
+                            }
+                            break;
+                        case 3: // Watching
+                            activityText = `Watching ${activity.name}`;
+                            break;
+                        case 4: // Custom Status
+                            activityText = activity.state || activity.name || '';
+                            if (activity.emoji) {
+                                activityText = `${activity.emoji.name || ''} ${activityText}`.trim();
+                            }
+                            break;
+                        case 5: // Competing
+                            activityText = `Competing in ${activity.name}`;
+                            break;
+                        default:
+                            activityText = activity.name || '';
+                    }
+
+                    activityElement.textContent = activityText;
+                    activityElement.className = activity.type === 0 ? 'discord-activity playing' : 'discord-activity';
+                } else {
+                    activityElement.textContent = '';
+                    activityElement.className = 'discord-activity';
+                }
+            }
+
+            updateMusicCover(activities) {
+                const musicCoverContainer = document.getElementById('musicCoverContainer');
+                const albumCover = document.getElementById('albumCover');
+
+                // Find Spotify activity (type 2)
+                const spotifyActivity = activities.find(activity => 
+                    activity.type === 2 && (activity.name === 'Spotify' || activity.id === 'spotify:1')
+                );
+
+                if (spotifyActivity) {
+                    // Show music cover in Discord widget
+                    musicCoverContainer.classList.add('playing');
+
+                    // Update album cover only
+                    if (spotifyActivity.assets?.large_image) {
+                        // Handle Spotify asset URLs
+                        let imageUrl = spotifyActivity.assets.large_image;
+                        if (imageUrl.startsWith('spotify:')) {
+                            // Convert Spotify asset to URL
+                            const assetId = imageUrl.split(':')[1];
+                            imageUrl = `https://i.scdn.co/image/${assetId}`;
+                        }
+                        albumCover.src = imageUrl;
+                    } else {
+                        // Fallback to Spotify icon
+                        albumCover.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/2048px-Spotify_logo_without_text.svg.png';
+                    }
+
+                    albumCover.onerror = () => {
+                        albumCover.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/2048px-Spotify_logo_without_text.svg.png';
+                    };
+
+                } else {
+                    // Hide music cover
+                    musicCoverContainer.classList.remove('playing');
+                }
+            }
+
+            showOfflineState() {
+                const avatar = document.getElementById('discordAvatar');
+                const username = document.getElementById('discordUsername');
+                const status = document.getElementById('discordStatus');
+                const activity = document.getElementById('discordActivity');
+                const statusIndicator = document.getElementById('statusIndicator');
+
+                // Set default avatar only if not already set
+                if (!avatar.src || avatar.src === window.location.href) {
+                    avatar.src = 'https://cdn.discordapp.com/embed/avatars/0.png';
+                }
+                username.textContent = 'kaaanreal';
+                status.textContent = 'Offline';
+                activity.textContent = '';
+                statusIndicator.className = 'status-indicator offline';
+            }
+
+            showOfflineStateWithProfile() {
+                const avatar = document.getElementById('discordAvatar');
+                const username = document.getElementById('discordUsername');
+                const status = document.getElementById('discordStatus');
+                const activity = document.getElementById('discordActivity');
+                const statusIndicator = document.getElementById('statusIndicator');
+                const musicCoverContainer = document.getElementById('musicCoverContainer');
+
+                // Use default avatar for now
+                avatar.src = 'https://cdn.discordapp.com/embed/avatars/0.png';
+                avatar.style.filter = 'grayscale(0.7) brightness(0.8)';
+                
+                username.textContent = 'kaaanreal';
+                status.textContent = 'Last seen a few minutes ago';
+                activity.textContent = '';
+                statusIndicator.className = 'status-indicator offline';
+                
+                // Hide music cover when offline
+                musicCoverContainer.classList.remove('playing');
+            }
+        }
+
+        // Initialize Discord widget when page loads
+        let discordWidget;
+        document.addEventListener('DOMContentLoaded', () => {
+            discordWidget = new DiscordWidget(DISCORD_USER_ID);
+        });
+
         // ===== FALLING IMAGES SYSTEM =====
 
         /**
