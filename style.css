@@ -153,10 +153,11 @@
         /* Discord widget container */
         .discord-widget {
             position: fixed;
-            bottom: calc(60px + 60px);
+            bottom: calc(70px + 140px);
             left: 0;
             right: 0;
-            margin: 0 auto;
+            margin-left: auto;
+            margin-right: auto;
             width: fit-content;
             background: rgba(32, 34, 37, 0.95);
             backdrop-filter: blur(10px);
@@ -302,13 +303,14 @@
         /* Fixed bottom navigation container */
         .bottom-nav-container {
             position: fixed;
-            bottom: 0;
+            bottom: auto;
+            top: 45rem;
             left: 0;
             right: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 2rem;
+            padding: 1rem;
             z-index: 1000;
         }
 
@@ -321,7 +323,7 @@
             padding: 1.2rem 2.5rem;
             animation: slideUp 0.8s ease-out 0.5s both;
             transition: all 0.3s ease;
-            margin-bottom: 10rem;
+            margin-bottom: 0;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             position: relative;
             z-index: 10;
@@ -422,6 +424,7 @@
         /* Social media icons container with entrance animation */
         .social-section {
             animation: slideUp 1s ease-out 0.7s both;
+            margin-top: 20rem;
         }
 
         /* Social icons flex layout */
@@ -526,11 +529,22 @@
             max-width: 95%;
             max-height: 90%;
             overflow-y: auto;
+            overflow-x: hidden;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
             transform: scale(0.8) translateY(50px);
             transition: all 0.4s ease;
             position: relative;
+        }
+
+        /* Hide scrollbar for all browsers */
+        .modal-content::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .modal-content {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
 
         .modal.active .modal-content {
@@ -540,52 +554,100 @@
         /* KPS modal specific tweaks */
         .kps-modal-content {
             max-width: 1200px;
-            width: 98%;
-            padding-top: 1.5rem;
-            padding-bottom: 1rem;
-            padding-left: 2rem;
-            padding-right: 2rem;
-            height: 100vh;
-            max-height: 100vh;
+            width: 95%;
+            padding: 2rem;
+            max-height: 85vh;
+            height: 85vh;
             display: flex;
             flex-direction: column;
+            overflow: hidden !important;
         }
 
         .kps-credit {
             text-align: center;
-            margin-top: 1rem;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
         }
 
         .kps-credit a {
             color: #64c8ff;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .kps-credit a:hover {
+            color: #8dd9ff;
+        }
+
+        .kps-button-container {
+            display: flex;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .kps-open-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 2rem;
+            background: linear-gradient(135deg, #64c8ff, #4a9fd8);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(100, 200, 255, 0.3);
+        }
+
+        .kps-open-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(100, 200, 255, 0.5);
+            background: linear-gradient(135deg, #4a9fd8, #64c8ff);
+        }
+
+        .kps-open-button:active {
+            transform: translateY(0);
         }
 
         .kps-frame-wrap {
             width: 100%;
-            flex: 1;
-            min-height: 70vh;
-            border-radius: 18px;
+            height: 550px;
+            border-radius: 12px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55);
-            background: rgba(10, 10, 20, 0.65);
-            animation: kpsPop 0.6s ease;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            background: rgba(10, 10, 20, 0.5);
+            margin-top: 1rem;
         }
 
+        .kps-frame-wrap::-webkit-scrollbar {
+            display: none;
+        }
 
         .kps-frame-wrap iframe {
             width: 100%;
             height: 100%;
             border: none;
             background: transparent;
+            overflow: hidden;
         }
 
-        @keyframes kpsPop {
-            0% { transform: scale(0.9) translateY(18px); opacity: 0; }
-            60% { transform: scale(1.02) translateY(-6px); opacity: 1; }
-            100% { transform: scale(1) translateY(0); opacity: 1; }
+        .kps-frame-wrap iframe::-webkit-scrollbar {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .kps-frame-wrap {
+                height: 450px;
+            }
+        }
+
+        @media (max-height: 800px) {
+            .kps-frame-wrap {
+                height: 400px;
+            }
         }
 
         /* Modal close button */
@@ -1330,7 +1392,8 @@
                 bottom: calc(120px + 110px);
                 padding: 12px;
                 min-width: 260px;
-                margin: 0 15px;
+                margin-left: auto;
+                margin-right: auto;
                 max-width: calc(100vw - 30px);
             }
 
