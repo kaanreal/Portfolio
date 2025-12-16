@@ -485,6 +485,15 @@
             }
         }
 
+        /**
+         * Opens external KPS tester in a new tab
+         */
+        function openKpsTester() {
+            window.open('https://clickspeedtest.com/', '_blank');
+        }
+
+        // KPS expand logic removed
+
         // ===== 3D POLAROID EFFECTS =====
 
         /**

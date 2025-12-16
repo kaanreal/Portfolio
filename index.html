@@ -40,7 +40,7 @@
                 <img id="albumCover" src="" alt="Album Cover">
             </div>
         </div>
-    </div>
+    </div>  
 
     <!-- Main content area with centered profile -->
     <div class="main-container">
@@ -63,7 +63,13 @@
                         <div class="dropdown-item" onclick="openModal('setupModal')">Setup</div>
                     </div>
                 </div>
-                <div class="nav-item" onclick="openModal('skinsModal')">Skins</div>
+                <div class="nav-item dropdown">
+                    Misc
+                    <div class="dropdown-content">
+                        <div class="dropdown-item" onclick="openModal('skinsModal')">Skins</div>
+                        <div class="dropdown-item" onclick="openModal('kpsModal')">KPS Tester</div>
+                    </div>
+                </div>
                 <div class="nav-item" onclick="openModal('contactModal')">Contact</div>
             </div>
         </nav>
@@ -115,33 +121,6 @@
                     </div>
                 </div>
 
-                <!-- Microphone setup item -->
-                <div class="polaroid-item">
-                    <div class="polaroid" onclick="openFullscreen(this)">
-                        <img src="assets/images/setup/Microphone.jpg" alt="Microphone">
-                    </div>
-                    <div class="setup-item-text">
-                        <h3 class="setup-item-title">Microphone</h3>
-                        <p class="setup-item-description">
-                            Tonor Td510<br>
-                            - Xlr via Focusrite Scarlett Solo 3rd Gen
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Audio interface setup item -->
-                <div class="polaroid-item">
-                    <div class="polaroid" onclick="openFullscreen(this)">
-                        <img src="assets/images/setup/Interface.jpg" alt="Interface">
-                    </div>
-                    <div class="setup-item-text">
-                        <h3 class="setup-item-title">Interface</h3>
-                        <p class="setup-item-description">
-                            Focusrite Scarlett Solo 3rd Gen
-                        </p>
-                    </div>
-                </div>
-
                 <p style="text-align: center; color: rgba(255, 255, 255, 0.6); margin-top: 2rem; font-style: italic;">
                     Note: I'm still learning photography so don't blame me for these pics.
                 </p>
@@ -177,6 +156,24 @@
                         </button>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- KPS tester modal -->
+    <div class="modal" id="kpsModal">
+        <div class="modal-content kps-modal-content">
+            <button class="modal-close" onclick="closeModal('kpsModal')">
+                <i class="fas fa-times"></i>
+            </button>
+            <h3 class="modal-title">KPS Tester</h3>
+             <p class="kps-credit">Made by <a href="https://sheepex.net/" target="_blank" rel="noopener">sheepex_</a></p>
+            <p style="text-align:center; color: rgba(255, 255, 255, 0.8); margin-bottom: 1.5rem;">
+                Test your clicks per second.
+            </p>
+             <br>
+            <div class="kps-frame-wrap">
+                <iframe id="kpsFrame" src="https://sheepex.net/kps-tester/" title="KPS Tester" loading="lazy"></iframe>
             </div>
         </div>
     </div>

@@ -153,7 +153,7 @@
         /* Discord widget container */
         .discord-widget {
             position: fixed;
-            bottom: 450px;
+            bottom: calc(60px + 60px);
             left: 0;
             right: 0;
             margin: 0 auto;
@@ -167,7 +167,7 @@
             max-width: 90vw;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
             animation: slideUp 0.8s ease-out 0.7s both;
-            z-index: 1001;
+            z-index: 999;
             transition: all 0.3s ease;
         }
 
@@ -181,8 +181,11 @@
         /* Discord content layout */
         .discord-content {
             display: flex;
+            flex-direction: row;
             align-items: center;
+            justify-content: flex-start;
             gap: 12px;
+            flex-wrap: nowrap;
         }
 
         /* Discord avatar container */
@@ -532,6 +535,57 @@
 
         .modal.active .modal-content {
             transform: scale(1) translateY(0);
+        }
+
+        /* KPS modal specific tweaks */
+        .kps-modal-content {
+            max-width: 1200px;
+            width: 98%;
+            padding-top: 1.5rem;
+            padding-bottom: 1rem;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            height: 100vh;
+            max-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .kps-credit {
+            text-align: center;
+            margin-top: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+        }
+
+        .kps-credit a {
+            color: #64c8ff;
+        }
+
+        .kps-frame-wrap {
+            width: 100%;
+            flex: 1;
+            min-height: 70vh;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.55);
+            background: rgba(10, 10, 20, 0.65);
+            animation: kpsPop 0.6s ease;
+        }
+
+
+        .kps-frame-wrap iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent;
+        }
+
+        @keyframes kpsPop {
+            0% { transform: scale(0.9) translateY(18px); opacity: 0; }
+            60% { transform: scale(1.02) translateY(-6px); opacity: 1; }
+            100% { transform: scale(1) translateY(0); opacity: 1; }
         }
 
         /* Modal close button */
@@ -1273,7 +1327,7 @@
 
             /* Discord widget mobile adjustments */
             .discord-widget {
-                bottom: 180px;
+                bottom: calc(120px + 110px);
                 padding: 12px;
                 min-width: 260px;
                 margin: 0 15px;
