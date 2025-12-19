@@ -153,7 +153,7 @@
         /* Discord widget container */
         .discord-widget {
             position: fixed;
-            bottom: calc(70px + 140px);
+            bottom: calc(6rem + 90px);
             left: 0;
             right: 0;
             margin-left: auto;
@@ -304,7 +304,7 @@
         .bottom-nav-container {
             position: fixed;
             bottom: auto;
-            top: 45rem;
+            top: 57%;
             left: 0;
             right: 0;
             display: flex;
@@ -312,6 +312,12 @@
             align-items: center;
             padding: 1rem;
             z-index: 1000;
+            transform: translateY(-50%);
+            pointer-events: none;
+        }
+
+        .bottom-nav-container > * {
+            pointer-events: auto;
         }
 
         /* Main navigation bar with glassmorphism effect */
@@ -423,8 +429,14 @@
 
         /* Social media icons container with entrance animation */
         .social-section {
+            position: fixed;
+            bottom: -26rem;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
             animation: slideUp 1s ease-out 0.7s both;
-            margin-top: 20rem;
+            z-index: 10;
         }
 
         /* Social icons flex layout */
@@ -1295,6 +1307,12 @@
                 font-size: 0.9rem;
             }
 
+            /* Mobile bottom-nav-container adjustments */
+            .bottom-nav-container {
+                padding: 0.5rem;
+                top: 55%;
+            }
+
             /* Smaller social icons for mobile */
             .social-icons {
                 gap: 1.5rem;
@@ -1306,12 +1324,13 @@
                 font-size: 1.2rem;
             }
 
-            /* Adjusted padding for mobile layout */
-            .main-container {
-                padding: 1rem;
+            /* Mobile social section adjustments */
+            .social-section {
+                bottom: 0.3rem;
             }
 
-            .bottom-nav-container {
+            /* Adjusted padding for mobile layout */
+            .main-container {
                 padding: 1rem;
             }
 
@@ -1389,7 +1408,8 @@
 
             /* Discord widget mobile adjustments */
             .discord-widget {
-                bottom: calc(120px + 110px);
+                bottom: auto;
+                bottom: calc(2.5rem + 90px);
                 padding: 12px;
                 min-width: 260px;
                 margin-left: auto;
@@ -1440,5 +1460,34 @@
                 left: 5%;
                 width: 90%;
                 height: 90%;
+            }
+        }
+        /* Tablet adjustments (768px - 1024px) */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            .bottom-nav-container {
+                top: 56%;
+            }
+
+            .discord-widget {
+                bottom: calc(4rem + 90px);
+            }
+
+            .social-section {
+                bottom: 0.5rem;
+            }
+        }
+
+        /* Large screens (1025px and up) */
+        @media (min-width: 1025px) {
+            .bottom-nav-container {
+                top: 57%;
+            }
+
+            .discord-widget {
+                bottom: calc(6rem + 90px);
+            }
+
+            .social-section {
+                bottom: 0.5rem;
             }
         }
