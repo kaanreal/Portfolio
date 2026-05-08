@@ -5,7 +5,7 @@
         let keysPressed = {};
 
         // Discord widget configuration
-        const DISCORD_USER_ID = '135973899887181824';
+        const DISCORD_USER_ID = '249879411594100751';
 
         // ===== DISCORD WIDGET SYSTEM =====
 
